@@ -7,6 +7,8 @@ import { Header } from "./components/header";
 import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
+import {Read} from './components/read';
+import { Create } from "./components/create";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 class App extends React.Component {
@@ -32,8 +34,8 @@ class App extends React.Component {
           {/* show different component based on url (client side routing using react-router-dom)*/}
           <Routes>
             <Route path="/" element={<Content />} />
-            <Route path="/read" element={<Header />} />
-            <Route path="/create" element={<Footer />} />
+            <Route path="/read" element={<Read />} />
+            <Route path="/create" element={<Create />} />
           </Routes>
 
           {/* Header, Content and Footer are all compenents that have been created as a class and imported */}
