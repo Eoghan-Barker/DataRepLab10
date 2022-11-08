@@ -8,11 +8,11 @@ export class Read extends React.Component {
     // axios makes a http request to the api
     componentDidMount() {
         // promise -result of an async operation
-        axios.get('https://jsonblob.com/api/jsonblob/1027219693823606784')
+        axios.get('http://localhost:4000/api/books')
         //callback function - a function is passed as an argument to the function
         .then((response)=> {
             this.setState({
-               books: response.data 
+               books: response.data.myBooks
             })
             // this function is fulfilling the promise
         })
