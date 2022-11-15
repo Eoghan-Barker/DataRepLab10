@@ -4,6 +4,29 @@ const port = 4000;
 const cors = require("cors");
 //Import express body-parser middleware to search the body of a http request from post method
 const bodyParser = require('body-parser')
+// import mongoose
+const mongoose = require('mongoose');
+
+//exception catching
+main().catch(err => console.log(err));
+
+// function to connect to database asyncronisly using mongoose
+async function main() {
+  await mongoose.connect('mongodb+srv://admin:admin@cluster0.v6ph3w1.mongodb.net/?retryWrites=true&w=majority');
+  
+  // use `await mongoose.connect('mongodb://user:password@localhost:27017/test');` if your database has auth enabled
+}
+
+// define the data to go into the mongoDB collection
+const bookSchema = new mongoose.Schema({
+  title: String,
+  cover: String,
+  author: String
+});
+
+// create a model from the schema - model = object to interact with the database
+const bookModel = mongoose.model('Books', bookSchema);
+
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -23,55 +46,28 @@ app.use(function (req, res, next) {
   next();
 });
 
+
+
+
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
 app.get("/api/books", (req, res) => {
-    // make an array of book objects to send to the server
-  const books = [
-    {
-      title: "Learn Git in a Month of Lunches",
-      isbn: "1617292419",
-      pageCount: 0,
-      thumbnailUrl:
-        "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/umali.jpg",
-      authors: ["Rick Umali"],
-      categories: [],
-    },
-    {
-      title: "MongoDB in Action, Second Edition",
-      isbn: "1617291609",
-      pageCount: 0,
-      thumbnailUrl:
-        "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/banker2.jpg",
-      status: "MEAP",
-      authors: [
-        "Kyle Banker",
-        "Peter Bakkum",
-        "Tim Hawkins",
-        "Shaun Verch",
-        "Douglas Garrett",
-      ],
-      categories: [],
-    },
-    {
-      title: "Getting MEAN with Mongo, Express, Angular, and Node",
-      isbn: "1617292036",
-      pageCount: 0,
-      thumbnailUrl:
-        "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/sholmes.jpg",
-      status: "MEAP",
-      authors: ["Simon Holmes"],
-      categories: [],
-    },
-  ];
+    //Query the database on the server to show all the documents
+    bookModel.find((error, data)=>{
+      res.json(data);
+    });
+});
 
-  // send the json data to the server
-  res.json({
-    myBooks: books,
-    message: "Hello from our API",
-  });
+app.get('/api/books/:id', (req, res) => {
+  // getting id that is passed as part of the url
+  console.log(req.params.id);
+
+  // handle the return from the database
+  bookModel.findById(req.params.id, (error, data)=>{
+    res.json(data);
+  })
 });
 
 // Pull the data out from the form without the data being in the url
@@ -79,6 +75,12 @@ app.get("/api/books", (req, res) => {
 // This will let us work with a database
 app.post("/api/books", (req, res) => {
     console.log(req.body);
+    // create a record in the database, set the fields using http POST
+    bookModel.create({
+      title: req.body.title,
+      cover: req.body.cover,
+      author: req.body.author
+    });
     res.send("data recieved");
   });
 

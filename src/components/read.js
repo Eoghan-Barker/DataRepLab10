@@ -12,7 +12,7 @@ export class Read extends React.Component {
         //callback function - a function is passed as an argument to the function
         .then((response)=> {
             this.setState({
-               books: response.data.myBooks
+               books:response.data
             })
             // this function is fulfilling the promise
         })
