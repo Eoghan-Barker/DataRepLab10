@@ -1,5 +1,5 @@
 import React from "react";
-import axios from 'axios';
+import axios from "axios";
 
 export class Create extends React.Component {
   constructor() {
@@ -21,15 +21,14 @@ export class Create extends React.Component {
     ${this.state.author}, ${this.state.cover}`);
 
     // Use axios to post the http request to the server (use post to embed data in the response)
-    const book = {    // object to pass up to the server
-      title:this.state.title,
-      cover:this.state.cover,
-      author:this.state.author
+    const book = {
+      // object to pass up to the server
+      title: this.state.title,
+      cover: this.state.cover,
+      author: this.state.author,
     };
     // async request
-    axios.post("http://localhost:4000/api/books", book)
-    .then()
-    .catch();
+    axios.post("http://localhost:4000/api/books", book).then().catch();
 
     // clear the state after logging
     this.setState({ title: "", author: "", cover: "" });

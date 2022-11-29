@@ -7,9 +7,10 @@ import { Header } from "./components/header";
 import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
-import {Read} from './components/read';
+import { Read } from "./components/read";
 import { Create } from "./components/create";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Edit } from "./components/edit";
 
 class App extends React.Component {
   // Render must be defined when you inherit from react.component
@@ -36,6 +37,7 @@ class App extends React.Component {
             <Route path="/" element={<Content />} />
             <Route path="/read" element={<Read />} />
             <Route path="/create" element={<Create />} />
+            <Route path="/edit/:id" element={<Edit />} />
           </Routes>
 
           {/* Header, Content and Footer are all compenents that have been created as a class and imported */}
