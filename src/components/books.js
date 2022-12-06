@@ -8,7 +8,7 @@ export class Books extends React.Component {
             (book)=>{
                 {/* map function makes bookitem component and passes each one a book,
                     added a key to stop infinate components from being made*/}
-                return <BookItem book = {book} key={book._id}></BookItem>
+                return <BookItem book = {book} key={book._id} ReloadData={this.props.ReloadData}></BookItem>
             }
         );
     }

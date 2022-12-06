@@ -69,7 +69,7 @@ app.get("/api/books/:id", (req, res) => {
 });
 
 // Handle the edit button server side and edit the correct book
-app.put("/api/book/:id", (req, res) => {
+app.put("/api/books/:id", (req, res) => {
   console.log("Update: " + req.params.id);
   bookModel.findByIdAndUpdate(
     req.params.id,
@@ -93,6 +93,14 @@ app.post("/api/books", (req, res) => {
     author: req.body.author,
   });
   res.send("data recieved");
+});
+
+app.delete("/api/books/:id", (req, res) => {
+  console.log("deleting: " + req.params.id);
+  // use the model and book id to delete the book from the database
+  bookModel.findByIdAndDelete({ _id: req.params.id }, (error, data) => {
+    res.send(data);
+  });
 });
 
 app.listen(port, () => {
