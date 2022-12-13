@@ -47,6 +47,11 @@ app.use(function (req, res, next) {
   next();
 });
 
+// Serve the static files from the React app
+const path = require("path");
+app.use(express.static(path.join(__dirname, "../build")));
+app.use("/static", express.static(path.join(__dirname, "build//static")));
+
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
@@ -101,6 +106,11 @@ app.delete("/api/books/:id", (req, res) => {
   bookModel.findByIdAndDelete({ _id: req.params.id }, (error, data) => {
     res.send(data);
   });
+});
+
+// Handles any requests that don't match the ones above
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname + "/../build/index.html"));
 });
 
 app.listen(port, () => {
